@@ -1,5 +1,5 @@
 git add *
-git commit -m "new commit"
+git commit -m %1
 git push 
 cd my-app
 call yarn run deploy
