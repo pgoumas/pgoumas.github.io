@@ -4,17 +4,19 @@
   "private": true,
   "homepage": "https://pgoumas.github.io/",
   "dependencies": {
+    "bootstrap": "4.3.1",
+    "firebase": "5.8.2",
+    "firebaseui": "^4.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
-    "bootstrap": "4.3.1",
-    "firebase": "5.8.2"
+    "react-firebaseui": "^3.1.2",
+    "react-scripts": "3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "yarn run build",
-		"deploy": "gh-pages -b master -d build",
+    "deploy": "gh-pages -b master -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -1,8 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import Firebase from "firebase";
 import config from "./config";
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,11 +13,41 @@ class App extends React.Component {
     this.state = {
       developers: []
     };
-  }
+  }//end props
+    
+  // The component's Local state.
+  state = {
+      isSignedIn: false // Local signed-in state.
+    };
 
-  componentDidMount() {
-    this.getUserData();
+ // Configure FirebaseUI.
+ uiConfig = {
+  // Popup signin flow rather than redirect flow.
+  signInFlow: 'popup',
+  // We will display Google and Facebook as auth providers.
+  signInOptions: [
+    Firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    Firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    Firebase.auth.EmailAuthProvider.PROVIDER_ID
+  ],
+  callbacks: {
+    // Avoid redirects after sign-in.
+    signInSuccessWithAuthResult: () => false
   }
+};
+
+// Listen to the Firebase Auth state and set the local state.
+componentDidMount() {
+  this.unregisterAuthObserver = Firebase.auth().onAuthStateChanged(
+      (user) => this.setState({isSignedIn: !!user})
+  );
+  this.getUserData();
+}
+
+// Make sure we un-register Firebase observers when the component unmounts.
+componentWillUnmount() {
+  this.unregisterAuthObserver();
+}
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
@@ -83,6 +114,11 @@ class App extends React.Component {
     const { developers } = this.state;
     return (
       <React.Fragment>
+           <div>
+              <h1>My App</h1>
+              <p>Welcome {Firebase.auth().currentUser}! </p>
+              <StyledFirebaseAuth uiConfig={this.uiConfig} FirebaseAuth={Firebase.auth()}/>
+            </div>
         <div className="container">
           <div className="row">
             <div className="col-xl-12">
